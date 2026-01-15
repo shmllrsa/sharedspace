@@ -28,22 +28,22 @@ const app = express();
 app.use(express.json());
 
 // Configure CORS to allow requests from your frontend
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'https://shared-space-xi.vercel.app'
-];
-
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+    // Allow localhost for development
+    if (origin.includes('localhost')) {
+      return callback(null, true);
     }
+    
+    // Allow any vercel.app domain
+    if (origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 };
