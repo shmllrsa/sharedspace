@@ -1,0 +1,195 @@
+// For the navigation bar.
+import './NavigationBar.css'                                 // Import CSS.
+import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import SharedSpaceLogo from '../assets/SharedSpaceLogo.svg'
+
+// ____________________________________________________________________________________________________
+
+export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications }) {
+    const [hasPostedToday, setHasPostedToday] = useState(false);
+
+    useEffect(() => {
+        checkIfPostedToday();
+    }, []);
+
+    const checkIfPostedToday = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            const response = await fetch('${import.meta.env.VITE_API_URL}/api/artworks/my', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const artworks = await response.json();
+
+                if (artworks.length > 0) {
+                    // get the most recent artwork
+                    const latestArtwork = artworks.sort((a, b) =>
+                        new Date(b.uploadDate) - new Date(a.uploadDate)
+                    )[0];
+
+                    // check if it was uploaded today
+                    const uploadDate = new Date(latestArtwork.uploadDate);
+                    const today = new Date();
+
+                    const isToday = uploadDate.getDate() === today.getDate() &&
+                        uploadDate.getMonth() === today.getMonth() &&
+                        uploadDate.getFullYear() === today.getFullYear();
+
+                    setHasPostedToday(isToday);
+                }
+            }
+        } catch (error) {
+            console.error('Error checking if posted today:', error);
+        }
+    };
+
+    return (
+        <nav className='navbar'>
+            {/* Logo redirects to home page or home-posted if user posted today. */}
+            <Link to={hasPostedToday ? "/home-posted" : "/home"}>
+                <div className='navbar-component-logo'>
+                    <img src={SharedSpaceLogo} alt="Shared Space" height="55" width="55" className="navbar-logo" />
+                </div>
+            </Link>
+
+            {/* Icons in navbar's center. */}
+            <div className='center-icons'>
+
+                {/* Friends' Space icon. */}
+                <Link to="/friends-space">
+                    <svg className='navbar-icon' width="35" height="35" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M300 472.063C300 438.911 286.83 407.117 263.388 383.675C239.946 360.233 208.152 347.063 175 347.063C141.848 347.063 110.054 360.233 86.6117 383.675C63.1696 407.117 50 438.911 50 472.063H175H300Z" fill="#341539" />
+                        <path d="M175.5 322.063C210.018 322.063 238 294.081 238 259.563C238 225.045 210.018 197.063 175.5 197.063C140.982 197.063 113 225.045 113 259.563C113 294.081 140.982 322.063 175.5 322.063Z" fill="#341539" />
+                        <path d="M339.5 282.063C368.806 282.063 396.913 293.757 417.636 314.574C438.359 335.39 450 363.624 450 393.063H305.552C299.409 382.521 291.892 372.722 283.116 363.947C271.747 352.578 258.66 343.322 244.466 336.429C249.131 328.53 254.79 321.178 261.364 314.574C282.087 293.757 310.194 282.063 339.5 282.063Z" fill="#341539" />
+                        <path d="M340 259.063C366.51 259.063 388 237.573 388 211.063C388 184.553 366.51 163.063 340 163.063C313.49 163.063 292 184.553 292 211.063C292 237.573 313.49 259.063 340 259.063Z" fill="#341539" />
+                        <path d="M268.69 204.339C268.479 206.567 268.37 208.824 268.37 211.106C268.37 218.422 269.48 225.479 271.538 232.119H257.657C254.253 221.888 249.011 212.498 242.321 204.339H268.69ZM382.847 155.237C374.8 148.947 365.36 144.359 355.066 142.011V55.7173H134.935V181.832C124.202 187.316 114.752 194.952 107.154 204.171V27.937H382.847V155.237Z" fill="#341539" />
+                    </svg>
+                </Link>
+
+                {/* Art Wall icon. */}
+                <Link to="/art-wall">
+                    <svg className="navbar-icon" width="35" height="35" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M239.11 76.656V423.344H76.8896V76.656H239.11Z" stroke="#341539" stroke-width="27.78" />
+                        <path d="M423.11 76.656V194.385H296.422V76.656H423.11Z" stroke="#341539" stroke-width="27.78" />
+                        <path d="M423.11 250.385V423.344H296.422V250.385H423.11Z" stroke="#341539" stroke-width="27.78" />
+                        <path d="M360.301 123.742L424.506 195.998H296.096L360.301 123.742Z" fill="#341539" />
+                        <path d="M116.275 208.275H199.725V253.793C199.725 274.742 182.742 291.725 161.793 291.725H116.275V208.275Z" fill="#341539" />
+                        <circle cx="359.766" cy="336.864" r="29.3987" fill="#341539" />
+                    </svg>
+                </Link>
+
+                {/* Leaderboard icon. */}
+                <Link to="/leaderboard">
+                    <svg className="navbar-icon" width="35" height="35" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M439 270H313V406H439V270Z" stroke="#341539" stroke-width="27.78" />
+                        <path d="M187 204H61V406H187V204Z" stroke="#341539" stroke-width="27.78" />
+                        <path d="M313 94H187V406H313V94Z" stroke="#341539" stroke-width="27.78" />
+                        <path d="M285 147C285 151.596 284.095 156.148 282.336 160.394C280.577 164.64 277.999 168.499 274.749 171.749C271.499 174.999 267.64 177.577 263.394 179.336C259.148 181.095 254.596 182 250 182C245.404 182 240.852 181.095 236.606 179.336C232.36 177.577 228.501 174.999 225.251 171.749C222.001 168.499 219.423 164.64 217.664 160.394C215.905 156.148 215 151.596 215 147H250H285Z" fill="#341539" />
+                        <path d="M273 207.5C273 204.545 272.418 201.619 271.287 198.89C270.157 196.16 268.499 193.679 266.41 191.59C264.321 189.501 261.84 187.843 259.11 186.713C256.381 185.582 253.455 185 250.5 185C247.545 185 244.619 185.582 241.89 186.713C239.16 187.843 236.679 189.501 234.59 191.59C232.501 193.679 230.843 196.16 229.713 198.89C228.582 201.619 228 204.545 228 207.5H250.5H273Z" fill="#341539" />
+                        <path d="M285 121H215V147H285V121Z" fill="#341539" />
+                        <path d="M273 207H228V215H273V207Z" fill="#341539" />
+                        <path d="M264.78 170H237V194H264.78V170Z" fill="#341539" />
+                    </svg>
+                </Link>
+
+                {/* Challenges icon. */}
+                <Link to="/challenges">
+                    <svg className="navbar-icon" width="35" height="35" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_0_1)">
+                            <mask id="mask0_0_1" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="500" height="500">
+                                <path d="M500 0H0V500H500V0Z" fill="white" />
+                            </mask>
+                            <g mask="url(#mask0_0_1)">
+                                <path d="M408.183 175.322L329.916 97.0556L436.787 68.4493L408.183 175.322Z" stroke="#341539" stroke-width="27.78" />
+                                <path d="M417.844 87.9806L410.306 120.837L384.988 95.5184L417.844 87.9806Z" fill="#341539" />
+                                <path d="M257.931 248.727L257.93 248.727C252.506 243.303 242.692 244.322 236.011 251.003L196.104 290.911C189.422 297.592 188.403 307.406 193.828 312.83L193.828 312.83C199.252 318.255 209.066 317.236 215.747 310.554L255.655 270.647C262.336 263.965 263.355 254.152 257.931 248.727Z" fill="#341539" />
+                                <path d="M91.8873 244.449L258.584 409.336L219.614 409.428L91.7722 282.974L91.8873 244.449Z" fill="#341539" />
+                                <path d="M173.717 362.983L141.118 330.385L59.833 411.671L92.4311 444.269L173.717 362.983Z" fill="#341539" />
+                                <path d="M334.291 117.274L314.648 97.6307L113.797 298.482L133.44 318.126L334.291 117.274Z" fill="#341539" />
+                                <path d="M415.83 183.613L396.187 163.969L195.335 364.821L214.978 384.464L415.83 183.613Z" fill="#341539" />
+                                <path d="M122.148 440.244L64.4106 382.507L44.7672 402.151L102.504 459.888L122.148 440.244Z" fill="#341539" />
+                            </g>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_0_1">
+                                <rect width="500" height="500" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </Link>
+            </div>
+
+            {/* Icons in navbar's right-hand side. */}
+            <div className='right-icons'>
+
+                {/* Notification icon. */}
+                <div className="navbar-notification-icon" onClick={onNotifications}>
+                    <svg className="navbar-icon" width="35" height="35" viewBox="0 -50 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_0_1)">
+                            <mask id="mask0_0_1" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="500" height="500">
+                                <path d="M500 0H0V500H500V0Z" fill="white" />
+                            </mask>
+                            <g mask="url(#mask0_0_1)">
+                                <mask id="mask1_0_1" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="500" height="500">
+                                    <path d="M500 0H0V500H500V0Z" fill="white" />
+                                </mask>
+                                <g mask="url(#mask1_0_1)">
+                                    <path d="M366.886 180.072C366.886 164.72 363.862 149.519 357.987 135.336C352.112 121.151 343.501 108.265 332.646 97.4093C321.791 86.554 308.904 77.9431 294.721 72.0683C280.537 66.1935 265.336 63.1698 249.984 63.1698C234.633 63.1698 219.431 66.1935 205.248 72.0683C191.065 77.9431 178.178 86.554 167.323 97.4093C156.468 108.265 147.857 121.151 141.982 135.336C136.107 149.519 133.083 164.72 133.083 180.072H160.885C160.885 168.371 163.189 156.785 167.667 145.975C172.145 135.164 178.708 125.341 186.981 117.068C195.255 108.794 205.077 102.231 215.887 97.7532C226.698 93.2755 238.284 90.9709 249.984 90.9709C261.685 90.9709 273.271 93.2755 284.082 97.7532C294.892 102.231 304.714 108.794 312.988 117.068C321.261 125.341 327.824 135.164 332.302 145.975C336.78 156.785 339.084 168.371 339.084 180.072H366.886Z" fill="#341539" />
+                                    <path d="M339.083 267.17C339.083 278.743 341.363 290.203 345.791 300.895C350.22 311.587 356.711 321.302 364.895 329.485C373.078 337.668 382.793 344.159 393.485 348.588C404.177 353.017 415.636 355.296 427.209 355.296V327.452C419.293 327.452 411.454 325.893 404.14 322.864C396.826 319.834 390.181 315.394 384.583 309.796C378.985 304.199 374.545 297.553 371.516 290.239C368.486 282.926 366.927 275.087 366.927 267.17H339.083Z" fill="#341539" />
+                                    <path d="M160.803 179.17H133.083V267.346H160.803V179.17Z" fill="#341539" />
+                                    <path d="M366.799 180.17H339.083V267.059H366.799V180.17Z" fill="#341539" />
+                                    <path d="M427.271 327.702H72.7291V355.483H427.271V327.702Z" fill="#341539" />
+                                </g>
+                            </g>
+                            <path d="M72.7291 355.483C84.3021 355.483 95.7621 353.203 106.454 348.775C117.146 344.346 126.861 337.855 135.044 329.671C143.227 321.488 149.718 311.773 154.147 301.081C158.576 290.389 160.855 278.93 160.855 267.357H133.011C133.011 275.273 131.452 283.112 128.423 290.426C125.393 297.74 120.953 304.385 115.355 309.983C109.758 315.581 103.112 320.021 95.7981 323.05C88.4851 326.08 80.6461 327.639 72.7291 327.639V355.483Z" fill="#341539" />
+                            <mask id="path-9-outside-1_0_1" maskUnits="userSpaceOnUse" x="172.083" y="327.483" width="156" height="106" fill="#341539">
+                                <rect fill="white" x="172.083" y="327.483" width="156" height="106" />
+                                <path d="M300.083 355.483C300.083 362.049 298.79 368.551 296.277 374.617C293.765 380.683 290.082 386.195 285.439 390.838C280.796 395.481 275.284 399.164 269.218 401.677C263.151 404.19 256.649 405.483 250.083 405.483C243.517 405.483 237.015 404.19 230.949 401.677C224.883 399.164 219.371 395.481 214.728 390.838C210.085 386.195 206.402 380.683 203.889 374.617C201.377 368.551 200.083 362.049 200.083 355.483L250.083 355.483H300.083Z" />
+                            </mask>
+                            <path d="M300.083 355.483C300.083 362.049 298.79 368.551 296.277 374.617C293.765 380.683 290.082 386.195 285.439 390.838C280.796 395.481 275.284 399.164 269.218 401.677C263.151 404.19 256.649 405.483 250.083 405.483C243.517 405.483 237.015 404.19 230.949 401.677C224.883 399.164 219.371 395.481 214.728 390.838C210.085 386.195 206.402 380.683 203.889 374.617C201.377 368.551 200.083 362.049 200.083 355.483L250.083 355.483H300.083Z" stroke="#341539" stroke-width="55.56" mask="url(#path-9-outside-1_0_1)" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_0_1">
+                                <rect width="500" height="500" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                    {/* Indicator appears for new notifications. */}
+                    {hasNewNotifications && <span className="navbar-notification-indicator"></span>}
+                </div>
+
+                {/* Sign-out icon. */}
+                <button onClick={onSignOut} className="navbar-sign-out-icon">
+                    <svg className="navbar-icon" width="35" height="35" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="35.613" y="60.1334" width="240" height="27.78" fill="#341539" />
+                        <rect x="315.975" y="239.02" width="94.5441" height="27.78" transform="rotate(-45 315.975 239.02)" fill="#341539" />
+                        <rect x="335.618" y="230.883" width="142.659" height="27.78" fill="#341539" />
+                        <rect x="21.7231" y="60.1334" width="27.78" height="379.733" fill="#341539" />
+                        <rect x="149.823" y="327.967" width="27.78" height="158.25" transform="rotate(-45 149.823 327.967)" fill="#341539" />
+                        <rect x="329.85" y="225.114" width="102.573" height="27.7806" transform="rotate(45 329.85 225.114)" fill="#341539" />
+                        <path d="M169.503 345.838H167.896L141.723 319.664V60.1332H169.503V345.838Z" fill="#341539" />
+                        <rect x="261.723" y="60.1334" width="27.78" height="379.733" fill="#341539" />
+                        <circle cx="195.607" cy="216.934" r="13.9486" fill="#341539" />
+                    </svg>
+                </button>
+
+                {/* Profile icon. */}
+                <Link to="/profile">
+                    <svg className="navbar-icon navbar-profile-icon" width="38" height="38" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M130.205 373.388C130.205 385.849 142.877 397.799 165.434 406.61C187.99 415.421 218.582 420.371 250.481 420.371C282.38 420.371 312.973 415.421 335.529 406.61C358.085 397.799 370.757 385.849 370.757 373.388H250.481H130.205Z" fill="#341539" />
+                        <path d="M370.276 378.838C370.276 346.939 357.604 316.347 335.048 293.791C312.491 271.235 281.899 258.563 250 258.563C218.101 258.563 187.508 271.235 164.952 293.791C142.396 316.347 129.724 346.939 129.724 378.838H250H370.276Z" fill="#341539" />
+                        <path d="M250.481 234.507C283.695 234.507 310.619 207.583 310.619 174.369C310.619 141.156 283.695 114.232 250.481 114.232C217.268 114.232 190.343 141.156 190.343 174.369C190.343 207.583 217.268 234.507 250.481 234.507Z" fill="#341539" />
+                        <circle cx="250" cy="246.535" r="180.796" stroke="#341539" stroke-width="27.78" />
+                    </svg>
+                </Link>
+            </div>
+        </nav>
+    );
+}

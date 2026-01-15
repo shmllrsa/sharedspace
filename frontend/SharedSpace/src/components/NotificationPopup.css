@@ -1,0 +1,192 @@
+/* For notification popup's div/itself. */
+.notification-popup-card {
+    background: rgba(75,72,110,0.67); 
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    max-height: 350px;
+    overflow-y: auto;
+    position: fixed;
+    right: 20px;
+    top: 103px;
+    z-index: 2000;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.notification-popup-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transform: scale(1.033);
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For notification popup itself. */
+.notification-popup {
+    padding: 1rem;
+    width: 300px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For top of notification popup (header and button). */
+.notification-popup-top {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1rem 0;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For header. */
+.notification-popup-header {
+    color: #FAF3EB;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0.4rem 0 0 0;
+    transition: filter 0.25s ease;
+}
+
+.notification-popup-header:hover {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For popup close button. */
+.notification-close-button {
+    background-color: #ba7a7a;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.28), inset 0 2px 3px rgba(0, 0, 0, 0.28);
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: "Poppins";
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: auto;
+    padding: 6px 12px;
+    transition: background-color 0.3s ease-in-out, 
+                box-shadow 0.3s ease-in-out, 
+                color 0.3s ease-in-out, 
+                transform 0.3s ease-in-out;
+}
+
+.notification-close-button:hover {
+    background-color: #FFE2E2;
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.35), inset 0 2px 3px rgba(0, 0, 0, 0.28);
+    color: #000000;
+    transform: scale(1.05);
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For notification list. */
+.notification-popup-list {
+    list-style: none;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For scrollbar. */
+.notification-popup-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* For scrollbar thumb. */
+.notification-popup-list::-webkit-scrollbar-thumb {
+    background: #FAF3EB;
+    border-radius: 8px;
+}
+
+.notification-popup-list::-webkit-scrollbar-thumb:hover {
+    background: #C4B5A4;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For notification list entries. */
+.notification-popup-list li {
+    background: #FAF3EB;
+    border-radius: 7px;
+    color: #4B486E;
+    font-size: 0.9rem;
+    margin: 0 0 1rem 0;
+    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+    transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+
+.notification-popup-list li:last-child {
+    margin-bottom: 0;
+}
+
+.notification-popup-list li:hover {
+    background: #C4B5A4;
+    color: #FAF3EB;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For notification list entries' time. */
+.notification-popup-list li .notification-time {
+    transition: color 0.25s ease;
+}
+
+.notification-popup-list li:hover .notification-time {
+    color: #FAF3EB;
+}
+
+.notification-time {
+    color: #EDA8A8;
+    margin-left: auto;
+    margin-right: 3px;
+}
+
+.notification-time-read {
+    margin-left: auto;
+    margin-right: 3px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For notification list entries' content. */
+.notification-info, .notification-info-read {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 0.5rem 0;
+}
+
+.notification-type, .notification-type-read {
+    font-weight: bold;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For read notifications. */
+.notification-read {
+    background: #CCC8D5 !important;
+    color: #78758e !important;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.notification-read:hover {
+    background: #a7a1b4 !important;
+}
+
+.notification-read .notification-type-read,
+.notification-read .notification-time-read,
+.notification-read .notification-content-read {
+    transition: color 0.25s ease;
+}
+
+.notification-read:hover .notification-type-read,
+.notification-read:hover .notification-time-read,
+.notification-read:hover .notification-content-read {
+    color: #FAF3EB;
+}

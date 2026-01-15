@@ -1,0 +1,147 @@
+/* For navbar */
+.navbar {
+    align-items: center;
+    background: linear-gradient(to bottom, #ffe2e2, #eda8a8);
+    background-size: 125% 125%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    left: 0;
+    padding: 0.75rem;
+    position: sticky;
+    right: 0;
+    top: 0;
+    transition: background-position 0.5s ease, box-shadow 0.25s ease;    
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar:hover {
+    background-position: bottom;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.33);
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For logo div. */
+.logo {
+    justify-self: start;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For right-hand side icons' divs. */
+.right-icons {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For center name's div/itself. */
+.center-name {
+    color: #341539;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.center-name:hover {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
+    transform: scale(1.05);
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For right-hand side icons' div. */
+.right-icons {
+    align-items: center;
+    display: flex;
+    gap: clamp(1rem, 2vw, 4rem);
+    justify-self: end;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For logo and right-hand side divs. */
+.logo, .right-icons {
+    min-width: 120px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For logo. */
+.navbar-logo {
+    align-items: center;
+    display: flex;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.navbar-logo:hover {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
+    transform: scale(1.1);  
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For icons. */
+.navbar-icon {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.navbar-icon:hover {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
+    transform: scale(1.2);
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For sign-out icon. */
+.navbar-sign-out-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 6px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For notification icon. */
+.navbar-notification-icon {
+    display: inline-block;
+    position: relative;
+}
+
+/* For notification indicator. */
+.navbar-notification-indicator {
+    background: red;
+    border: 2px solid darkred;
+    border-radius: 50%;
+    height: 10px;
+    position: absolute;
+    right: 0; 
+    top: 0;  
+    width: 10px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For smaller windows. */
+@media (max-width: 720px) {
+    .navbar {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        justify-items: center;  
+    }
+    .right-icons {
+        gap: 2rem;
+        justify-self: center;
+        margin: 0.5rem 0 0 0;  /* Decrease icon gap. */
+    }
+    .logo {
+        justify-self: center;
+    }
+}

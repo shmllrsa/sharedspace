@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.delete-popup-overlay {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background: rgba(94, 91, 124, 0.6);
+     /* Using #5E5B7C with opacity */
+     backdrop-filter: blur(4px);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     z-index: 2000;
+     animation: fadeIn 0.3s ease-out;
+}
+
+.delete-popup-card {
+     background: #FFEAEA;
+     /* Matches .sidebar-card */
+     padding: 2rem;
+     border-radius: 16px;
+     /* Matches project border-radius */
+     width: 90%;
+     max-width: 400px;
+     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.25);
+     /* Matches .card-shadow */
+     color: #5E5B7C;
+     text-align: center;
+     font-family: 'Poppins', sans-serif;
+     transform: translateY(0);
+     animation: slideUp 0.3s ease-out;
+     border: none;
+}
+
+.delete-popup-title {
+     font-size: 1.5rem;
+     font-weight: 600;
+     margin-bottom: 1rem;
+     color: #5E5B7C;
+     /* Matches project headers */
+}
+
+.delete-popup-message {
+     font-size: 1rem;
+     color: #5E5B7C;
+     margin-bottom: 2rem;
+     line-height: 1.5;
+     opacity: 0.9;
+}
+
+.delete-popup-buttons {
+     display: flex;
+     gap: 1rem;
+     justify-content: center;
+}
+
+.delete-popup-button {
+     padding: 0.6rem 1.5rem;
+     border-radius: 30px;
+     /* Matches .borderedButton-purple */
+     font-size: 14px;
+     font-weight: bold;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     border: none;
+     min-width: 120px;
+     font-family: 'Poppins', sans-serif;
+     box-shadow: 0 5px 6px rgba(0, 0, 0, 0.28);
+}
+
+.delete-popup-button.cancel {
+     background: #8785A2;
+     /* Matches .borderedButton-purple */
+     color: white;
+}
+
+.delete-popup-button.cancel:hover {
+     background: #FFE2E2;
+     color: #000000;
+     transform: scale(1.05);
+}
+
+.delete-popup-button.confirm {
+     background: #CD6D6D;
+     /* Matches streak value and selection outline */
+     color: white;
+}
+
+.delete-popup-button.confirm:hover {
+     background: #B55D5D;
+     transform: scale(1.05);
+     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+     from {
+          opacity: 0;
+     }
+
+     to {
+          opacity: 1;
+     }
+}
+
+@keyframes slideUp {
+     from {
+          opacity: 0;
+          transform: translateY(20px);
+     }
+
+     to {
+          opacity: 1;
+          transform: translateY(0);
+     }
+}

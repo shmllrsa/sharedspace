@@ -1,0 +1,44 @@
+.header{
+    border: none;
+    background-color: transparent;
+    font-size: 24;
+    font-family: "Poppins";
+    font-weight: 600;
+    color: #341539;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.header:hover{
+    transform: scale(1.1);
+}
+
+.lightbody{
+    border: none;
+    background-color: transparent;
+    font-size: 23;
+    font-family: "Poppins";
+    font-weight: 600;
+    color: #FFE2E2;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.lightbody:hover{
+    transform: scale(1.1);
+}
+
+.darkbody{
+    border: none;
+    background-color: transparent;
+    font-size: 23;
+    font-family: "Poppins";
+    font-weight: 600;
+    color: #5C5A7B;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.darkbody:hover{
+    transform: scale(1.1);
+}

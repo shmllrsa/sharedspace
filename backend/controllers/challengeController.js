@@ -1,0 +1,122 @@
+import Challenge from '../models/challengeModel.js';
+import Artwork from '../models/artworkModel.js';
+import mongoose from 'mongoose';
+import { updateStreak } from './userController.js'
+import { broadcastNotification } from '../utils/notificationHelper.js';
+import { awardStreakBadges } from '../utils/badgeHelper.js';
+
+// create a challenge (FOR ADMINS ONLY) 
+const createChallenge = async (req, res) => {
+  try {
+    const { title, description, startDate, endDate, criteriaTags } = req.body;
+
+    const challenge = new Challenge({
+      title,
+      description,
+      startDate,
+      endDate,
+      criteriaTags
+    });
+
+    const createdChallenge = await challenge.save();
+
+    await broadcastNotification(
+      'challenge_alert',
+      'New Challenge Alert!',
+      `A new challenge "${title}" has just started. Show us your best work!`,
+      createdChallenge._id // The relatedId for deep-linking
+    );
+
+    res.status(201).json(createdChallenge);
+  } catch (error) {
+    console.error('Error creating challenge:', error);
+    res.status(500).json({ message: 'Server error creating challenge' });
+  }
+};
+
+// get active challenge
+const getActiveChallenge = async (req, res) => {
+  try {
+    const now = new Date();
+
+    // Find a challenge where today is between the start and end date
+    const activeChallenge = await Challenge.findOne({
+      startDate: { $lte: now },
+      endDate: { $gte: now }
+    });
+
+    if (!activeChallenge) {
+      return res.status(404).json({ message: 'No active challenge found.' });
+    }
+
+    res.status(200).json(activeChallenge);
+  } catch (error) {
+    console.error('Error fetching active challenge:', error);
+    res.status(500).json({ message: 'Server error fetching challenge' });
+  }
+};
+
+// Submit an artwork to an active challenge
+const submitToChallenge = async (req, res) => {
+  try {
+    const { title, description, imageURL, challengeId } = req.body;
+    const ownerID = req.user.userId;
+
+    // Check if the challenge exists and is active
+    const challenge = await Challenge.findById(challengeId);
+    const now = new Date();
+
+    if (!challenge) {
+      return res.status(404).json({ message: 'Challenge not found.' });
+    }
+    if (now < challenge.startDate || now > challenge.endDate) {
+      return res.status(400).json({ message: 'This challenge is not active.' });
+    }
+
+    // similar to createArtwork
+    // but with the challengeId added
+    const newArtwork = new Artwork({
+      artworkID: new mongoose.Types.ObjectId(),
+      ownerID: ownerID,
+      title: title,
+      description: description,
+      imageURL: imageURL,
+      privacy: 'public', // Challenge submissions must be public
+      challengeId: challengeId
+    });
+
+    const savedArtwork = await newArtwork.save();
+
+    const updatedUser = await updateStreak(ownerID); //trigger streak update
+
+    if (updatedUser) {
+      await awardStreakBadges(ownerID, updatedUser.streakCount);
+    }
+
+    res.status(201).json(savedArtwork);
+  } catch (error) {
+    console.error('Error submitting to challenge:', error);
+    res.status(500).json({ message: 'Server error submitting artwork' });
+  }
+};
+
+// get all challenges
+const getAllChallenges = async (req, res) => {
+  try {
+    console.log('getAllChallenges: Request received');
+    // Find all challenges and sort by start date (newest first)
+    const challenges = await Challenge.find().sort({ startDate: -1 });
+
+    console.log('getAllChallenges: Found', challenges.length, 'challenges');
+    console.log('getAllChallenges: Challenges:', JSON.stringify(challenges, null, 2));
+
+    res.status(200).json(challenges);
+  } catch (error) {
+    console.error('Error fetching all challenges:', error);
+    res.status(500).json({ message: 'Server error fetching challenges' });
+  }
+};
+
+export {
+  createChallenge, getActiveChallenge, submitToChallenge, getAllChallenges
+}

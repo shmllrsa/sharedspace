@@ -1,0 +1,253 @@
+.friends-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.friends-popup-container {
+    width: 480px;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    animation: popupFadeIn 0.3s ease;
+}
+
+@keyframes popupFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.friends-header {
+    background-color: #5E5B7C;
+    padding: 24px 24px 12px 24px;
+    color: #E6E3E3;
+}
+
+.title-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title-search h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.search-bar {
+    background-color: #E6E3E3;
+    border-radius: 20px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    width: 190px;
+}
+
+.search-icon {
+    font-size: 14px;
+    margin-right: 8px;
+    color: #5E5B7C;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+    color: #5E5B7C;
+}
+
+.search-bar input::placeholder {
+    color: #8785A2;
+}
+
+.tabs {
+    display: flex;
+    gap: 20px;
+}
+
+.tabs button {
+    background: none;
+    border: none;
+    color: rgba(230, 227, 227, 0.6);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding-bottom: 10px;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.tabs button.active {
+    color: #E6E3E3;
+}
+
+.tabs button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #CD6D6D;
+    border-radius: 2px;
+}
+
+.friends-body {
+    background-color: #FFEAEA;
+    min-height: 450px;
+    max-height: 550px;
+    overflow-y: auto;
+}
+
+.friends-content-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.friend-row, .request-row {
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.friend-row.even, .request-row.even {
+    background-color: #FFEAEA;
+}
+
+.friend-row.odd, .request-row.odd {
+    background-color: #FFE2E2;
+}
+
+.friend-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.row-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.row-username {
+    font-weight: 600;
+    color: #5E5B7C;
+    font-size: 17px;
+}
+
+.action-btn {
+    background-color: #8785A2;
+    color: #E6E3E3;
+    border: none;
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #5E5B7C;
+}
+
+.action-group {
+    display: flex;
+    gap: 8px;
+}
+
+.accept-btn {
+    background-color: #8785A2;
+}
+
+.cancel-btn {
+    width: auto;
+    padding: 0 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: #CD6D6D;
+}
+
+.cancel-btn:hover {
+    background-color: #B55D5D;
+}
+
+.add-friend-top {
+    padding: 40px 24px;
+    text-align: center;
+    background-color: #FFEAEA;
+}
+
+.add-friend-top h2 {
+    color: #5E5B7C;
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-weight: 700;
+}
+
+.users-search {
+    background-color: #E6E3E3;
+    border-radius: 20px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    width: 280px;
+    margin: 0 auto;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.users-search input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    color: #5E5B7C;
+}
+
+.users-search .search-icon {
+    color: #5E5B7C;
+}
+
+.friends-header .tabs button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.search-bar input::placeholder,
+.search-bar input,
+.users-search input::placeholder,
+.users-search input {
+    font-family: 'Poppins', sans-serif; /* or any font */
+}
+
+.status-message {
+    align-self: center;
+    color: #5E5B7C;
+    padding-top: 1rem;
+}
