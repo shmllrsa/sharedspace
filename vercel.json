@@ -1,5 +1,4 @@
 {
-  "buildCommand": "npm install && npm run build",
-  "outputDirectory": "frontend/SharedSpace/dist",
-  "root": "frontend/SharedSpace"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
 }
